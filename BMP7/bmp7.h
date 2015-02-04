@@ -1,7 +1,7 @@
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
 typedef unsigned int DWORD;
-typedef long LONG;
+typedef int LONG;
 
 //位图文件头定义;
 //其中不包含文件类型信息（由于结构体的内存结构决定，

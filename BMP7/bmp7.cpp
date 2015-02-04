@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <cstdio>
 #include "bmp7.h"
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <iostream>
-#include "time.h"
+#include <time.h>
 using namespace std;
 
 #define random(x) (rand()%x)
@@ -28,26 +28,26 @@ IMAGEDATA **imagedataTemp=NULL;//动态分配存储原图片的像素信息的二维数组
 
 //显示位图文件头信息
 void showBmpHead(BITMAPFILEHEADER pBmpHead){
-	cout<<"位图文件头:"<<endl;
-	cout<<"文件大小:"<<pBmpHead.bfSize<<endl;
-	cout<<"保留字_1:"<<pBmpHead.bfReserved1<<endl;
-	cout<<"保留字_2:"<<pBmpHead.bfReserved2<<endl;
-	cout<<"实际位图数据的偏移字节数:"<<pBmpHead.bfOffBits<<endl<<endl;
+	cout<<"bmpfile head:"<<endl;
+	cout<<"file size:"<<pBmpHead.bfSize<<endl;
+	cout<<"reserved_1:"<<pBmpHead.bfReserved1<<endl;
+	cout<<"reserved_2:"<<pBmpHead.bfReserved2<<endl;
+	cout<<"real data offset:"<<pBmpHead.bfOffBits<<endl<<endl;
 }
 
 void showBmpInforHead(tagBITMAPINFOHEADER pBmpInforHead){
-	cout<<"位图信息头:"<<endl;
-	cout<<"结构体的长度:"<<pBmpInforHead.biSize<<endl;
-	cout<<"位图宽:"<<pBmpInforHead.biWidth<<endl;
-	cout<<"位图高:"<<pBmpInforHead.biHeight<<endl;
-	cout<<"biPlanes平面数:"<<pBmpInforHead.biPlanes<<endl;
-	cout<<"biBitCount采用颜色位数:"<<pBmpInforHead.biBitCount<<endl;
-	cout<<"压缩方式:"<<pBmpInforHead.biCompression<<endl;
-	cout<<"biSizeImage实际位图数据占用的字节数:"<<pBmpInforHead.biSizeImage<<endl;
-	cout<<"X方向分辨率:"<<pBmpInforHead.biXPelsPerMeter<<endl;
-	cout<<"Y方向分辨率:"<<pBmpInforHead.biYPelsPerMeter<<endl;
-	cout<<"使用的颜色数:"<<pBmpInforHead.biClrUsed<<endl;
-	cout<<"重要颜色数:"<<pBmpInforHead.biClrImportant<<endl;
+	cout<<"bmpfile info head:"<<endl;
+	cout<<"struce length:"<<pBmpInforHead.biSize<<endl;
+	cout<<"bmp width:"<<pBmpInforHead.biWidth<<endl;
+	cout<<"bmp height:"<<pBmpInforHead.biHeight<<endl;
+	cout<<"biPlanes num:"<<pBmpInforHead.biPlanes<<endl;
+	cout<<"biBitCount color bit num:"<<pBmpInforHead.biBitCount<<endl;
+	cout<<"compression method:"<<pBmpInforHead.biCompression<<endl;
+	cout<<"biSizeImage real bmpfile data size:"<<pBmpInforHead.biSizeImage<<endl;
+	cout<<"X permeter:"<<pBmpInforHead.biXPelsPerMeter<<endl;
+	cout<<"Y permeter:"<<pBmpInforHead.biYPelsPerMeter<<endl;
+	cout<<"color num:"<<pBmpInforHead.biClrUsed<<endl;
+	cout<<"important color num:"<<pBmpInforHead.biClrImportant<<endl;
 }
 void getNumArray()
 {
@@ -85,13 +85,13 @@ int readBmp(const char* filename)
 		if(0x4d42!=bfType)
 		{
 			cout<<"the file is not a bmp file!"<<endl;
-			return NULL;
+			return 0;
 		}
 		//读取bmp文件的文件头和信息头
 		fread(&strHead,1,sizeof(tagBITMAPFILEHEADER),fpi);
-		//showBmpHead(strHead);//显示文件头
+		//		showBmpHead(strHead);//显示文件头
 		fread(&strInfo,1,sizeof(tagBITMAPINFOHEADER),fpi);
-		//showBmpInforHead(strInfo);//显示文件信息头
+		//		showBmpInforHead(strInfo);//显示文件信息头
 
 		//读取调色板
 		for(unsigned int nCounti=0;nCounti<strInfo.biClrUsed;nCounti++)
@@ -111,18 +111,18 @@ int readBmp(const char* filename)
 		//imagedata = (IMAGEDATA*)malloc(width * height * sizeof(IMAGEDATA));
 		imagedata= (IMAGEDATA**)malloc(height*width*sizeof(IMAGEDATA));
 		for(i=0;i<height;i++)
-			imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
-		
+		  imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
+
 
 		//temp imagedata array for 28 * 28
 		imagedataTemp= (IMAGEDATA**)malloc(28*28*sizeof(IMAGEDATA));
 		for(i=0;i<28;i++)
-			imagedataTemp[i]=(IMAGEDATA*)malloc(28*sizeof(IMAGEDATA));
+		  imagedataTemp[i]=(IMAGEDATA*)malloc(28*sizeof(IMAGEDATA));
 
 		//fseek(fpi,54,SEEK_SET);
 		//读出图片的像素数据
 		for(i=height-1;i>=0;i--)
-			fread(imagedata[i],sizeof(char),width,fpi);
+		  fread(imagedata[i],sizeof(char),width,fpi);
 
 		//getNumArray();  //info of num
 		fclose(fpi);
@@ -130,7 +130,7 @@ int readBmp(const char* filename)
 	else
 	{
 		cout<<"file open error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	return 1;
 
@@ -153,7 +153,7 @@ int readSmallBmp()
 		if(0x4d42!=bfType)
 		{
 			cout<<"the file is not a bmp file!"<<endl;
-			return NULL;
+			return 0;
 		}
 		//读取bmp文件的文件头和信息头
 		fread(&strHead,1,sizeof(tagBITMAPFILEHEADER),fpi);
@@ -178,13 +178,13 @@ int readSmallBmp()
 		//imagedata = (IMAGEDATA*)malloc(width * height * sizeof(IMAGEDATA));
 		imagedata= (IMAGEDATA**)malloc(height*width*sizeof(IMAGEDATA));
 		for(i=0;i<height;i++)
-			imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
-		
+		  imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
+
 
 		//fseek(fpi,54,SEEK_SET);
 		//读出图片的像素数据
 		for(i=height-1;i>=0;i--)
-			fread(imagedata[i],sizeof(char),width,fpi);
+		  fread(imagedata[i],sizeof(char),width,fpi);
 
 		//getNumArray();  //info of num
 		fclose(fpi);
@@ -192,7 +192,7 @@ int readSmallBmp()
 	else
 	{
 		cout<<"file open error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	return 1;
 
@@ -207,7 +207,7 @@ int saveBmp()
 	if((fpw=fopen("small11111.bmp","wb"))==NULL)
 	{
 		cout<<"create the bmp file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	WORD bfType_w=0x4d42;
 	fwrite(&bfType_w,1,sizeof(WORD),fpw);
@@ -227,7 +227,7 @@ int saveBmp()
 
 	//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
 	for(i=height-1;i>=0;i--)
-		fwrite(imagedata[i],sizeof(char),width,fpw);
+	  fwrite(imagedata[i],sizeof(char),width,fpw);
 	fclose(fpw);
 	return 1;
 }
@@ -249,7 +249,7 @@ int saveBmpFinal()
 	if((fpw=fopen(filecreate,"wb"))==NULL)  //file increase by 1
 	{
 		cout<<"create the bmp file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	WORD bfType_w=0x4d42;
 	fwrite(&bfType_w,1,sizeof(WORD),fpw);
@@ -269,8 +269,8 @@ int saveBmpFinal()
 
 	//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
 	for(i=0;i<height;i++)
-		for(j=0;j<width;j++)
-			imagedata[i][j]=31;
+	  for(j=0;j<width;j++)
+		imagedata[i][j]=31;
 
 	int countTemp=0;
 	int k=0;
@@ -285,19 +285,19 @@ int saveBmpFinal()
 	{
 		//fseek(fout2,0,SEEK_SET);
 		//fscanf(fout2,"%d %d %d",&n1,&n2,&n3);
-		
+
 		randnum1=random(10);
 		randnum2=random(4)+1;
 		if(countTemp==1)
-			randnum1=1;
-			
+		  randnum1=1;
+
 		filenameTemp[7]=filenameTemp[9]=randnum1+'0';
 		filenameTemp[11]=randnum2+'0';
 
 		fileNumName=filenameTemp;
 		fout2=fopen(fileNumName,"r");   //create two random numbers
 		j=1;
-		
+
 		fscanf(fout2,"%d",&lineNum);
 
 		for(i=8;i<=23;i++)
@@ -322,7 +322,7 @@ int saveBmpFinal()
 		fclose(fout2);
 	}
 	for(i=height-1;i>=0;i--)
-		fwrite(imagedata[i],sizeof(char),width,fpw);
+	  fwrite(imagedata[i],sizeof(char),width,fpw);
 	fclose(fpw);
 	//fclose(fout2);
 	return 1;
@@ -336,7 +336,7 @@ int createBmp()
 	if((fpw=fopen("new11.bmp","wb"))==NULL)
 	{
 		cout<<"create the bmp file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	WORD bfType_w=0x4d42;
 	fwrite(&bfType_w,1,sizeof(WORD),fpw);
@@ -356,8 +356,8 @@ int createBmp()
 
 	//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
 	for(i=0;i<height;i++)
-		for(j=0;j<width;j++)
-			imagedata[i][j]=31;
+	  for(j=0;j<width;j++)
+		imagedata[i][j]=31;
 
 	int countTemp=0;
 	int k=0;
@@ -389,7 +389,7 @@ int createBmp()
 		//i=height-1-23;
 	}
 	for(i=height-1;i>=0;i--)
-		fwrite(imagedata[i],sizeof(char),width,fpw);
+	  fwrite(imagedata[i],sizeof(char),width,fpw);
 	fclose(fpw);
 	fclose(fout2);
 	return 1;
@@ -413,7 +413,7 @@ int createBmpRandom()
 	if((fpw=fopen(filecreate,"wb"))==NULL)  //file increase by 1
 	{
 		cout<<"create the bmp file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	//
 	//store the each num pos into a txt
@@ -430,7 +430,7 @@ int createBmpRandom()
 	if((fpPos=fopen(filenumPos,"w"))==NULL)  //file increase by 1
 	{
 		cout<<"create the txt file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 
 	//write file head
@@ -452,16 +452,16 @@ int createBmpRandom()
 
 	//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
 	for(i=0;i<height;i++)
-		for(j=0;j<width;j++)
-			imagedata[i][j]=31;
-	
+	  for(j=0;j<width;j++)
+		imagedata[i][j]=31;
+
 	//num and pos is random
 	int countTemp=0;
 	int k=0;
 	int nTemp=0;
 	int lineNum=0;
 	int randnum1,randnum2,randnumrow,randnumcol;
-	
+
 	const char* fileNumName="num/num3/3_1.txt";
 	char filenameTemp[]="num/num3/3_1.txt";
 	posPrev=0;
@@ -469,23 +469,23 @@ int createBmpRandom()
 	{
 		//fseek(fout2,0,SEEK_SET);
 		//fscanf(fout2,"%d %d %d",&n1,&n2,&n3);
-		
+
 		//num is random
 		randnum1=random(10);
 		randnum2=random(4)+1;
 		if(countTemp==1)
-			randnum1=1;
-			
+		  randnum1=1;
+
 		filenameTemp[7]=filenameTemp[9]=randnum1+'0';
 		filenameTemp[11]=randnum2+'0';
 
 		fileNumName=filenameTemp;
 		fout2=fopen(fileNumName,"r");   //create two random numbers
 		j=1;
-		
-		
+
+
 		randnumcol=random(6);
-		
+
 		fscanf(fout2,"%d",&lineNum);
 
 		randnumrow=random(4);
@@ -493,7 +493,7 @@ int createBmpRandom()
 		for(i=8;i<=23;i++)   //row num is random
 		{
 			if(countTemp==1)
-				j=6;
+			  j=6;
 			else j=posPrev+randnumcol-3;
 
 			//j=(countTemp-1)*10+randnumcol-1;   //column num is random
@@ -505,19 +505,19 @@ int createBmpRandom()
 				if(k%(lineNum+1)==0)   //k % num : num needs to change, store in the file
 				{
 					k=0;
-					
+
 					//cout<<endl;
 					break;
 				}
 				fscanf(fout2,"%d",&nTemp);
 				//if(i==8)cout<<nTemp<<"\t";
 				if((int)imagedata[i][j]!=31)
-					if(nTemp-(30-(int)(imagedata[i][j]))<0)
-						imagedata[i][j]=0;
-					else
-						imagedata[i][j]=nTemp-(30-(int)(imagedata[i][j]));
+				  if(nTemp-(30-(int)(imagedata[i][j]))<0)
+					imagedata[i][j]=0;
+				  else
+					imagedata[i][j]=nTemp-(30-(int)(imagedata[i][j]));
 				else
-					imagedata[i][j]=nTemp;
+				  imagedata[i][j]=nTemp;
 			}
 		}
 
@@ -526,13 +526,13 @@ int createBmpRandom()
 
 		posPrev=j;
 		//i=height-1-23;
-		
+
 		fclose(fout2);
 	}
-	
+
 
 	for(i=height-1;i>=0;i--)
-		fwrite(imagedata[i],sizeof(char),width,fpw);
+	  fwrite(imagedata[i],sizeof(char),width,fpw);
 	fclose(fpw);
 	fclose(fpPos);
 	if(posPrev<105 || posPrev>115)
@@ -563,9 +563,9 @@ int createSingleNum(int curPic)
 	if((fpPos=fopen(filenumPos,"r"))==NULL)  //file increase by 1
 	{
 		cout<<"open the txt file error!"<<endl;
-		return NULL;
+		return 0;
 	}
-	
+
 
 	//open the matching bmg file
 	//
@@ -579,11 +579,11 @@ int createSingleNum(int curPic)
 		phonenumTemp/=10;
 	}
 	filenumPic=filenumPicTemp;
-	
+
 	if((fplarge=fopen(filenumPic,"rb"))==NULL)  //file increase by 1
 	{
 		cout<<"open the bmp file error!"<<endl;
-		return NULL;
+		return 0;
 	}
 	widthTemp=0;
 
@@ -594,7 +594,7 @@ int createSingleNum(int curPic)
 		if(0x4d42!=bfType)
 		{
 			cout<<"the file is not a bmp file!"<<endl;
-			return NULL;
+			return 0;
 		}
 		//读取bmp文件的文件头和信息头
 		fread(&strHead,1,sizeof(tagBITMAPFILEHEADER),fplarge);
@@ -616,18 +616,18 @@ int createSingleNum(int curPic)
 		height = strInfo.biHeight;
 		//图像每一行的字节数必须是4的整数倍
 		width = (width  + 3) / 4 * 4;
-		
-		
+
+
 		//for(i=0;i<height;i++)
-			//free(imagedata[i]);
+		//free(imagedata[i]);
 		//free(imagedata);
 		//imagedata= (IMAGEDATA**)malloc(height*width*sizeof(IMAGEDATA));
 		//for(i=0;i<height;i++)
-			//imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
+		//imagedata[i]=(IMAGEDATA*)malloc(width*sizeof(IMAGEDATA));
 		//fseek(fpi,54,SEEK_SET);
 		//读出图片的像素数据
 		for(i=height-1;i>=0;i--)
-			fread(imagedata[i],sizeof(char),width,fplarge);
+		  fread(imagedata[i],sizeof(char),width,fplarge);
 
 		//getNumArray();  //info of num
 		fclose(fplarge);
@@ -635,9 +635,9 @@ int createSingleNum(int curPic)
 	else
 	{
 		cout<<"file open error!"<<endl;
-		return NULL;
+		return 0;
 	}
-	
+
 	//readBmp(filenumPic);  //get the 2D array imagedata
 
 	int iNum;
@@ -663,12 +663,12 @@ int createSingleNum(int curPic)
 		if((fpw=fopen(filecreate,"wb"))==NULL)  //file increase by 1
 		{
 			cout<<"create the bmp file error!"<<endl;
-			return NULL;
+			return 0;
 		}
 
 		//write into the list file the info : pic name, lable
 		for(i=7;i<=21;i++)
-			fprintf(fplist,"%c",filecreateTemp[i]);
+		  fprintf(fplist,"%c",filecreateTemp[i]);
 		fprintf(fplist," %d\n",filecreateTemp[10]-'0');
 
 
@@ -690,11 +690,11 @@ int createSingleNum(int curPic)
 		}
 
 		//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
-		
+
 		//initialize the temp imagedata array
 		for(i=0;i<28;i++)
-			for(j=0;j<28;j++)
-				imagedataTemp[i][j]=31;
+		  for(j=0;j<28;j++)
+			imagedataTemp[i][j]=31;
 
 		//put data into the new bmp file from the big bmp file
 		i=6;j=8;
@@ -710,13 +710,13 @@ int createSingleNum(int curPic)
 		}
 
 		for(i=27;i>=0;i--)
-			fwrite(imagedataTemp[i],sizeof(char),28,fpw);
-		
+		  fwrite(imagedataTemp[i],sizeof(char),28,fpw);
+
 		fclose(fpw);
 	}
 
 	fclose(fpPos);
-	
+
 	//fclose(fout2);
 	return 1;
 }
@@ -731,26 +731,28 @@ int main(){
 	//saveBmp();
 	int i;
 	/*
-	for(i=0;i<10;i++)
-		saveBmpFinal();  //pos is not random
-	*/
+	   for(i=0;i<10;i++)
+	   saveBmpFinal();  //pos is not random
+	   */
 
 	//create phone pic 
-	for(i=0;i<4000;i++)
-		createBmpRandom();  //pos is random
-	//
+	for(i=0;i<400;i++)
+	  createBmpRandom();  //pos is random
+
 
 	//cout<<phonenum<<endl;
-	
+
 	//list file
+
 	if((fplist=fopen("listfile.txt","w"))==NULL)
 	{
 		cout<<"open the list file error!"<<endl;
 		return 0;
 	}
 	for(i=0;i<phonenum;i++)
-		createSingleNum(i);
-	fclose(fplist);
+	  createSingleNum(i);
+
+	//fclose(fplist);
 	//释放内存
 	//delete[] imagedata;
 
