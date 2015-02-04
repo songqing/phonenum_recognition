@@ -721,6 +721,83 @@ int createSingleNum(int curPic)
 	return 1;
 }
 
+
+int splitSmallPics(const char* bigfilename)
+{
+	FILE* fpw;
+	int i,j;
+	int curPic=0;
+	int phonenumTemp=curPic;
+	//readBmp(filenumPic);  //get the 2D array imagedata
+	int iNum;
+	const char* filecreate="testpic/pic0000.bmp";
+	char filecreateTemp[]="testpic/pic0000.bmp";
+	int linesmall,rowsmall;
+	int numpos=5;
+	for(iNum=0;iNum<70 && numpos< width-8;iNum++)  //get the 11 num's real value and pos
+	{
+		//保存bmp图片
+		i=0;
+		filecreateTemp[11]=filecreateTemp[12]=filecreateTemp[13]=filecreateTemp[14]='0';
+		phonenumTemp=curPic++;
+		while(phonenumTemp>0)
+		{
+			filecreateTemp[14-i++]=phonenumTemp%10 + '0';
+			phonenumTemp/=10;
+		}
+		filecreate=filecreateTemp;
+		if((fpw=fopen(filecreate,"wb"))==NULL)  //file increase by 1
+		{
+			cout<<"create the small bmp file error!"<<endl;
+			return 0;
+		}
+
+		//write file head
+		WORD bfType_w=0x4d42;
+		fwrite(&bfType_w,1,sizeof(WORD),fpw);
+		//fpw +=2;
+		fwrite(&strHead,1,sizeof(tagBITMAPFILEHEADER),fpw);
+		strInfo.biWidth = 28;
+		strInfo.biHeight = 28;
+		fwrite(&strInfo,1,sizeof(tagBITMAPINFOHEADER),fpw);
+		//保存调色板数据
+		for(unsigned int nCounti=0;nCounti<strInfo.biClrUsed;nCounti++)
+		{
+			fwrite(&strPla[nCounti].rgbBlue,1,sizeof(BYTE),fpw);
+			fwrite(&strPla[nCounti].rgbGreen,1,sizeof(BYTE),fpw);
+			fwrite(&strPla[nCounti].rgbRed,1,sizeof(BYTE),fpw);
+			fwrite(&strPla[nCounti].rgbReserved,1,sizeof(BYTE),fpw);
+		}
+
+		//width = (width * sizeof(IMAGEDATA) + 3) / 4 * 4;
+
+		//initialize the temp imagedata array
+		for(i=0;i<28;i++)
+		  for(j=0;j<28;j++)
+			imagedataTemp[i][j]=31;
+
+		//put data into the new bmp file from the big bmp file
+		i=6;j=8;
+		for(linesmall=8;linesmall<=23;linesmall++)
+		{
+			j=8;
+			for(rowsmall=numpos-5;rowsmall<=numpos+6;rowsmall++)
+			{
+				imagedataTemp[i][j]=imagedata[linesmall][rowsmall];
+				j++;
+			}
+			i++;
+		}
+
+		for(i=27;i>=0;i--)
+		  fwrite(imagedataTemp[i],sizeof(char),28,fpw);
+
+		fclose(fpw);
+		numpos+=2;
+	}
+
+	return 1;
+}
 int main(){
 	srand((int)time(0));
 
@@ -736,14 +813,14 @@ int main(){
 	   */
 
 	//create phone pic 
-	for(i=0;i<400;i++)
-	  createBmpRandom();  //pos is random
+//	for(i=0;i<400;i++)
+//	  createBmpRandom();  //pos is random
 
 
 	//cout<<phonenum<<endl;
 
 	//list file
-
+/*
 	if((fplist=fopen("listfile.txt","w"))==NULL)
 	{
 		cout<<"open the list file error!"<<endl;
@@ -751,8 +828,13 @@ int main(){
 	}
 	for(i=0;i<phonenum;i++)
 	  createSingleNum(i);
-
+*/
 	//fclose(fplist);
+	//
+	
+	//test a whole phone pic by split into many small pic
+	//split the big pic into small pics (about 50)
+	splitSmallPics("model.bmp");
 	//释放内存
 	//delete[] imagedata;
 
