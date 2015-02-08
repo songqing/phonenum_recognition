@@ -801,6 +801,98 @@ int splitSmallPics(const char* bigfilename)
 
 	return 1;
 }
+
+int py_test_accuracy(char bmpfilename[12], int bmpnum, char phone_python[20])
+{
+	int i=0;
+	char bmpnum_array[5]="0000";
+	while(bmpnum>0)
+	{
+		bmpnum_array[3-i++]=bmpnum%10 + '0';
+		bmpnum/=10;
+	}
+//	Py_Initialize();   //初始化
+//	if (!Py_IsInitialized())  return 0;
+
+	PyRun_SimpleString("import os");
+	PyRun_SimpleString("import numpy as np");
+	PyRun_SimpleString("import sys");
+	PyRun_SimpleString("sys.path.append('/home/songqing/dl/caffe/python')");
+	PyRun_SimpleString("sys.path.append('/usr/lib/python2.7/dist-packages')");
+	PyRun_SimpleString("sys.path.append('./')");
+	PyRun_SimpleString("import caffe");
+
+	PyObject* pName = NULL;
+	PyObject* pModule = NULL;
+    PyObject* pFunc = NULL;
+	PyObject* pDict = NULL;
+    PyObject* pyParams = NULL;
+    PyObject* pResult = NULL;
+   // const char* pBuffer = NULL;
+   // int iBufferSize = 0;
+	pName = PyString_FromString("phone_for_c");
+    pModule = PyImport_Import(pName);
+
+    if (!pModule)
+    {
+        cout << "get module failed!" << endl;
+        exit (0);
+    }
+
+ 	pDict = PyModule_GetDict(pModule);
+     if (!pDict)
+    {
+         return 0;
+    }
+   // pFunc = PyObject_GetAttrString(pModule, "classifynum");
+	pFunc=PyDict_GetItemString(pDict, "classifynum");
+    if (!pFunc || !PyCallable_Check(pFunc))
+    {
+        cout << "get func failed!" << endl;
+//        cout << int(pFunc) << endl;
+        exit (0);
+    }
+//    pParam = Py_BuildValue("(s)", "HEHEHE");
+	pyParams = PyTuple_New(2); 
+	PyObject *pyValue1 = PyString_FromString(bmpfilename);  
+	PyObject *pyValue2 = PyString_FromString(bmpnum_array);  
+	PyTuple_SetItem(pyParams, 0, pyValue1);  
+	PyTuple_SetItem(pyParams, 1, pyValue2);  
+	// ok, call the function  
+	//pyValue = PyObject_CallObject(pyFunc, pyParams);
+    pResult = PyEval_CallObject(pFunc,pyParams);
+    if(pResult)
+    {
+		/*
+        if(PyArg_Parse(pResult, "s",phone_python))
+        {
+            cout<<phone_python<<endl;
+        }
+		*/
+		strcpy(phone_python, PyString_AsString(pResult));
+		cout<<"python phone num: "<<phone_python<<endl;
+    }
+/*	
+	if(pModule)
+		Py_DECREF(pModule);
+	if(pName)
+		Py_DECREF(pName);
+	if(pyParams)
+		Py_DECREF(pyParams);
+	if(pyValue1)
+		Py_DECREF(pyValue1);
+	if(pyValue2)
+		Py_DECREF(pyValue2);
+	if(pFunc)
+		Py_DECREF(pFunc);
+	if(pDict)
+		Py_DECREF(pDict);
+	if(pResult)
+		Py_DECREF(pResult);
+	*/
+   // Py_Finalize();
+	return 1;
+}
 int main(){
 	srand((int)time(0));
 
@@ -839,10 +931,12 @@ int main(){
 	//split the big pic into small pics (about 50)
 	
 	//read bmp file from the bmplist.txt, test the accuracy
-	FILE* fpbmplist;
+	FILE* fpbmplist, *fptest_result;
 	char bmpfilename[50]="";
 	int bmpfilenum=0;
 	char phone11[12]="00000000000";
+	//char phone_python[40]="00000000000";
+	char phone_python[20]="0000";
 	int i;
 	int correctnum=0;  // the num of judging correct
 
@@ -851,22 +945,61 @@ int main(){
 		cout<<"open the bmp list file error!"<<endl;
 		return 0;
 	}
+	if((fptest_result=fopen("test_result.txt","w"))==NULL)  //file increase by 1
+	{
+		cout<<"open the test result list file error!"<<endl;
+		return 0;
+	}
 
-	while(fscanf(fpbmplist,"%s",bmpfilename) > 0)
+
+	int for_max=0;
+	int success_falg=0;
+	Py_Initialize();   //初始化
+	if (!Py_IsInitialized())  return 0;
+	while(fscanf(fpbmplist,"%s",bmpfilename) > 0/* && for_max++ < 2*/)
 	{
 		for(i=6;i<17;i++)
 		{
 			phone11[i-6]=bmpfilename[i];
 		}
+		success_falg=0;
+		++bmpfilenum;
+		fprintf(fptest_result,"bmp %d\n", bmpfilenum);
+		fprintf(fptest_result,"%s\n", phone11);
 		//read the bmp file
 		readBmp(bmpfilename);
 		//split the bmp file into many small bmps for test afterwards
 		splitSmallPics(bmpfilename);
 		//call python to test
+		py_test_accuracy(phone11,bmpfilenum,phone_python);
+
+		fprintf(fptest_result,"%s\n", phone_python);
+
+		for(i=0;i<11;i++)
+		{
+			if(phone11[i]!=phone_python[i])
+			{
+				success_falg=1;
+				break;
+			}
+		}
+		if(!success_falg)
+		{  
+			fprintf(fptest_result,"match successfully!\n\n");
+			correctnum++;
+			
+		}
+		else
+		{
+			fprintf(fptest_result,"match wrong!\n\n");
+		}
+
 
 		system("rm -rf testpic/*");  //clear the small pic dir
-		//cout<<bmpfilenum++<<endl;
+		cout<<bmpfilenum<<endl;
 	}
+    Py_Finalize();
+
 
 	cout<<"correct rate is: "<<correctnum/100.0<<endl;
 //	splitSmallPics("model.bmp");

@@ -1,0 +1,500 @@
+bmp 1
+17349974506
+01734997450
+match wrong!
+
+bmp 2
+18610569259
+18610569250
+match wrong!
+
+bmp 3
+13910001303
+13911001303
+match wrong!
+
+bmp 4
+18911239303
+18911239303
+match successfully!
+
+bmp 5
+18985821677
+18985821677
+match successfully!
+
+bmp 6
+18810189557
+18811895577
+match wrong!
+
+bmp 7
+15990167517
+159901675177
+match successfully!
+
+bmp 8
+13910720723
+13910720723
+match successfully!
+
+bmp 9
+13811621058
+13811621058
+match successfully!
+
+bmp 10
+16834567950
+01683456795
+match wrong!
+
+bmp 11
+15910893327
+15908933277
+match wrong!
+
+bmp 12
+13522318699
+13522318699
+match successfully!
+
+bmp 13
+13260060018
+13210060018
+match wrong!
+
+bmp 14
+13124762130
+13124762130
+match successfully!
+
+bmp 15
+13520039148
+13520031480
+match wrong!
+
+bmp 16
+18911294021
+18911294021
+match successfully!
+
+bmp 17
+13366733617
+13366733617
+match successfully!
+
+bmp 18
+13833016637
+13833016637
+match successfully!
+
+bmp 19
+13810431279
+13811431127
+match wrong!
+
+bmp 20
+13661390535
+13613905735
+match wrong!
+
+bmp 21
+13121271106
+13121271010
+match wrong!
+
+bmp 22
+13522211964
+13522211964
+match successfully!
+
+bmp 23
+15081151858
+15081151858
+match successfully!
+
+bmp 24
+15010026399
+15010026399
+match successfully!
+
+bmp 25
+13686136544
+13686136544
+match successfully!
+
+bmp 26
+13611225607
+13611225077
+match wrong!
+
+bmp 27
+15811169771
+15811169777
+match wrong!
+
+bmp 28
+15810111917
+15810119177
+match wrong!
+
+bmp 29
+13581998143
+13581998143
+match successfully!
+
+bmp 30
+13521306800
+13521306800
+match successfully!
+
+bmp 31
+18263100998
+18263000998
+match wrong!
+
+bmp 32
+13113616119
+13113616119
+match successfully!
+
+bmp 33
+13718875764
+13718175776
+match wrong!
+
+bmp 34
+17799746823
+17799746823
+match successfully!
+
+bmp 35
+13716562202
+13716562202
+match successfully!
+
+bmp 36
+13161647001
+13161647001
+match successfully!
+
+bmp 37
+13020035120
+13021035120
+match wrong!
+
+bmp 38
+15810246474
+15800246474
+match wrong!
+
+bmp 39
+13146778787
+13116778787
+match wrong!
+
+bmp 40
+18201114543
+18201145430
+match wrong!
+
+bmp 41
+18001153197
+18001157319
+match wrong!
+
+bmp 42
+13683211481
+13683211481
+match successfully!
+
+bmp 43
+13661398850
+13661398850
+match successfully!
+
+bmp 44
+13161559811
+13161559811
+match successfully!
+
+bmp 45
+18610225810
+18610225810
+match successfully!
+
+bmp 46
+15237603283
+15237603283
+match successfully!
+
+bmp 47
+13269105778
+132691057778
+match wrong!
+
+bmp 48
+13581651715
+13580651715
+match wrong!
+
+bmp 49
+13366234498
+13366234498
+match successfully!
+
+bmp 50
+13611184685
+136110146857
+match wrong!
+
+bmp 51
+18270985070
+18270985070
+match successfully!
+
+bmp 52
+15210013650
+15210013650
+match successfully!
+
+bmp 53
+13439180316
+13431803160
+match wrong!
+
+bmp 54
+15810885315
+15810885315
+match successfully!
+
+bmp 55
+18600646577
+18600646577
+match successfully!
+
+bmp 56
+13718588772
+13718588772
+match successfully!
+
+bmp 57
+15810081620
+15810081620
+match successfully!
+
+bmp 58
+13124779401
+13124779401
+match successfully!
+
+bmp 59
+13521794687
+13521794687
+match successfully!
+
+bmp 60
+18911808528
+18911808528
+match successfully!
+
+bmp 61
+13301163287
+13301163287
+match successfully!
+
+bmp 62
+18618222115
+18618222115
+match successfully!
+
+bmp 63
+18600038894
+18600038894
+match successfully!
+
+bmp 64
+18810645301
+18810645301
+match successfully!
+
+bmp 65
+15101536928
+15101536921
+match wrong!
+
+bmp 66
+13301380053
+13301380053
+match successfully!
+
+bmp 67
+18810468750
+18810468750
+match successfully!
+
+bmp 68
+15711465660
+15771146560
+match wrong!
+
+bmp 69
+13810386887
+13810786887
+match wrong!
+
+bmp 70
+11186065660
+01110860656
+match wrong!
+
+bmp 71
+18611748216
+18611748216
+match successfully!
+
+bmp 72
+13601129006
+13601129006
+match successfully!
+
+bmp 73
+15770699221
+15770699221
+match successfully!
+
+bmp 74
+18511863366
+18511863366
+match successfully!
+
+bmp 75
+13520167344
+13520167344
+match successfully!
+
+bmp 76
+13811225710
+13811225710
+match successfully!
+
+bmp 77
+13366332788
+1333327880
+match wrong!
+
+bmp 78
+15801274836
+15811274836
+match wrong!
+
+bmp 79
+13661318263
+13613182630
+match wrong!
+
+bmp 80
+15901857995
+15018577995
+match wrong!
+
+bmp 81
+15910875016
+15910875016
+match successfully!
+
+bmp 82
+13911297270
+13910129727
+match wrong!
+
+bmp 83
+13811253709
+13811253709
+match successfully!
+
+bmp 84
+15801684086
+15801840860
+match wrong!
+
+bmp 85
+13810138717
+138101387177
+match successfully!
+
+bmp 86
+18911863716
+18911863716
+match successfully!
+
+bmp 87
+13672127608
+13672127608
+match successfully!
+
+bmp 88
+18612259771
+18612259771
+match successfully!
+
+bmp 89
+13366053397
+13366053397
+match successfully!
+
+bmp 90
+13366280156
+13366280156
+match successfully!
+
+bmp 91
+13188080588
+13188080588
+match successfully!
+
+bmp 92
+13681302708
+13813027080
+match wrong!
+
+bmp 93
+13701178798
+13701178798
+match successfully!
+
+bmp 94
+13311092720
+13311092721
+match wrong!
+
+bmp 95
+13621117168
+13621017168
+match wrong!
+
+bmp 96
+15210152118
+15210521180
+match wrong!
+
+bmp 97
+13521716856
+13521716856
+match successfully!
+
+bmp 98
+13146117786
+13146117786
+match successfully!
+
+bmp 99
+18618419200
+18618419200
+match successfully!
+
+bmp 100
+13121633512
+13121633512
+match successfully!
+

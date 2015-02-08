@@ -1,5 +1,6 @@
 #%matplotlib inline
 import os
+
 #import matplotlib
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -20,7 +21,7 @@ import caffe
 # and the image you would like to classify.
 #MODEL_FILE = caffe_root+'examples/mnist/lenet.prototxt'
 #PRETRAINED = '/home/songqing/dl/caffe/examples/mnist/zsq11_lenet_iter_10000.caffemodel'
-def classifynum():
+def classifynum(correctphone, bmpnum):
 	MODEL_FILE = '/home/songqing/dl/caffe/examples/mnist/lenet.prototxt'
 	PRETRAINED = '/home/songqing/dl/caffe/examples/mnist/zsq11_lenet_iter_10000.caffemodel'
 	piccount=0
@@ -28,8 +29,10 @@ def classifynum():
 	finallist=[]
 	poslist=[]
 	ratelist=[]
-	outfile=open('smallpic.txt','w')
-	for iternum in range(1,130):
+	outfile=open('smallpic.txt','a+')
+	outfile.write('phone '+str(bmpnum)+'\n')
+	outfile.write(str(correctphone)+'\n')
+	for iternum in range(1,140):
 		#print iternum
 		counttemp=piccount
 		piccount=piccount+1
@@ -195,10 +198,23 @@ def classifynum():
 		caffe_input = np.asarray([net.preprocess('data', in_) for in_ in input_oversampled])
 # forward() takes keyword args for the input blobs with preprocessed input arrays.
 #%timeit net.forward(data=caffe_input)
-	print finallist
-	print ratelist
-	print poslist
+#	print finallist
+#	print ratelist
+#	print poslist
+#	outfile.close()
+	outfile.write(str(finallist)+'\n')
+	outfile.write(str(ratelist)+'\n')
+	outfile.write(str(poslist)+'\n')
 	outfile.close()
+	str_out=''
+	n_for=0
+	while(n_for<len(finallist)):
+		str_out+=str(finallist[n_for])
+		n_for=n_for+1
+	
+#	print str_out
+	return str(str_out)
+	
 if __name__ == '__main__':
 	#piccount=0
 	#finallist=[]
@@ -206,7 +222,7 @@ if __name__ == '__main__':
 	#ratelist=[]
 	#outfile=open('smallpic.txt','w')
 	#for i in range(1,130):
-	classifynum()
+	classifynum(15650701111,1)
 	#outfile.close()
 	#print finallist
 	#print ratelist
