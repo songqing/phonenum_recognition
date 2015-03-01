@@ -78,9 +78,10 @@ def classifynum(correctphone, bmpnum):
 			continue
 #in a range , get the max value
 		if((len(finallist)==0)):
-			finallist.append(nummax)
-			ratelist.append(prediction[0][nummax])
-			poslist.append(iternum)
+			if(nummax==1):# the first num is 1
+				finallist.append(nummax)
+				ratelist.append(prediction[0][nummax])
+				poslist.append(iternum)
 		elif(iternum - poslist[-1]<=2):
 			if(prediction[0][nummax] > ratelist[-1]):
 				if(len(finallist)>1):
@@ -111,7 +112,7 @@ def classifynum(correctphone, bmpnum):
 					ratelist.append(prediction[0][nummax])
 					poslist.append(iternum)
 			else:
-				if(ratelist[-1]> 0.999):# last rate is too high, add
+				if(ratelist[-1]> 0.999 and len(finallist) < 11):# last rate is too high, add
 					if(nummax==finallist[-1] and finallist[-1]== finallist[-2]):
 						if(nummax!=1 and iternum-poslist[-2] > 14):
 							finallist.append(nummax)
@@ -127,7 +128,7 @@ def classifynum(correctphone, bmpnum):
 						finallist.append(nummax)
 						ratelist.append(prediction[0][nummax])
 						poslist.append(iternum)
-				elif(ratelist[-1]>0.98 and nummax==9):# 9 rate is lower, add
+				elif(ratelist[-1]>0.98 and nummax==9 and len(finallist) < 11):# 9 rate is lower, add
 					if(nummax==finallist[-1] and finallist[-1]== finallist[-2]):
 						if(nummax!=1 and iternum-poslist[-2] > 14):
 							finallist.append(nummax)
